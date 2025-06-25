@@ -43,7 +43,7 @@ public class AuthenticationUser {
     public void syncWithDatabase() {
         if (mongoDBDatabase.exists("accounts", "username", username))
             mongoDBDatabase.update("accounts", mongoDBDatabase.find("accounts", "username", username).first(), new Document()
-                    .append("username", username)
+                    .append("username", username.toLowerCase())
                     .append("method", method)
                     .append("value", value));
         else
@@ -54,7 +54,10 @@ public class AuthenticationUser {
     }
 
     public static AuthenticationUser fromUsername(String username) {
-        Document doc = mongoDBDatabase.find("accounts", "username", username).first();
-        return new AuthenticationUser(username, doc.getString("method"), doc.getString("value"));
+        if (mongoDBDatabase.exists("accounts", "username", username)) {
+            Document doc = mongoDBDatabase.find("accounts", "username", username).first();
+            return new AuthenticationUser(username, doc.getString("method"), doc.getString("value"));
+        } else
+            return null;
     }
 }
