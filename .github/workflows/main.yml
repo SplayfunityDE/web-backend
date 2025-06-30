@@ -39,7 +39,7 @@ jobs:
       run: ssh-keyscan -p ${{ secrets.PORT }} -H ${{ secrets.HOST }}  >> ~/.ssh/known_hosts
       
     - name: Deploy with rsync
-      run: rsync -avz /home/runner/work/Roonie/Roonie/target/web-backend-1.0.0-SNAPSHOT.jar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/dockerfiles/web-backend
+      run: rsync -avz /home/runner/work/web-backend/web-backend/target/web-backend-1.0.0-SNAPSHOT.jar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/dockerfiles/web-backend
 
     - name: Rebuild container
       uses: appleboy/ssh-action@v1.0.3
