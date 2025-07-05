@@ -7,33 +7,33 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @CrossOrigin(origins = "*")
-        @RestController
-        @RequestMapping("/api/authentication/accounts")
-        public class AuthenticationController {
+@RestController
+@RequestMapping("/authentication/accounts")
+public class AuthenticationController {
 
-            @PostMapping("/hash")
-            public boolean checkLoginValue(@RequestBody AuthenticationUser authenticationUser) {
-                String username = authenticationUser.getUsername().toLowerCase();
-                String value = authenticationUser.getValue();
-                if (AuthenticationUser.fromUsername(username) != null && AuthenticationUser.fromUsername(username).getValue().equals(hashToSHA256(value)))
-                    return true;
-                else
-                    return false;
-            }
+    @PostMapping("/login")
+    public boolean checkLoginValue(@RequestBody AuthenticationUser authenticationUser) {
+        String username = authenticationUser.getUsername().toLowerCase();
+        String value = authenticationUser.getValue();
+        if (AuthenticationUser.fromUsername(username) != null && AuthenticationUser.fromUsername(username).getValue().equals(hashToSHA256(value)))
+            return true;
+        else
+            return false;
+    }
 
-            @PostMapping("token")
-            public boolean checkSessionToken() {
-                return false;
-            }
+    @PostMapping("token")
+    public boolean checkSessionToken() {
+        return false;
+    }
 
-            private static String hashToSHA256(String value) {
-                MessageDigest digest = null;
-                try {
-                    digest = MessageDigest.getInstance("SHA-256");
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
-                }
-                byte[] encodedhash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
+    private static String hashToSHA256(String value) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] encodedhash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
         return bytesToHex(encodedhash);
     }
 
