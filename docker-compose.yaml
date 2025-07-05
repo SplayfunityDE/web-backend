@@ -1,0 +1,11 @@
+services:
+  web-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - /opt/dockerfiles/web-backend:/app
+    env_file: .env
+    ports:
+      - 8080:8080
