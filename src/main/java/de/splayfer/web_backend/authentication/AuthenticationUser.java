@@ -1,5 +1,6 @@
-package de.splayfer.web_backend;
+package de.splayfer.web_backend.authentication;
 
+import de.splayfer.web_backend.MongoDBDatabase;
 import org.bson.Document;
 
 public class AuthenticationUser {
