@@ -1,8 +1,7 @@
 package de.splayfer.web_backend.ticket;
 
 import de.splayfer.web_backend.MongoDBDatabase;
-import org.bson.Document;
-import org.bson.json.JsonMode;
+import jakarta.annotation.PostConstruct;
 import org.bson.json.JsonWriterSettings;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,10 +17,9 @@ import java.util.stream.StreamSupport;
 @RequestMapping("/ticket/list")
 public class TicketListController {
 
-    MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("splayfunity");
-
     @GetMapping("/all")
     public ResponseEntity<?> listAllTickets() {
+        MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("splayfunity");
         return ResponseEntity.ok("[" +
                 StreamSupport.stream(mongoDBDatabase.findAll("ticket").spliterator(), false)
                 .map(doc -> doc.toJson(JsonWriterSettings.builder().indent(true).build()))
