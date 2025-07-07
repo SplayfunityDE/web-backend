@@ -41,7 +41,6 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of("*")); // In Produktion: spezifische Domains statt "*"
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // Nur aktivieren, wenn du keine "*" bei Origins hast
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
