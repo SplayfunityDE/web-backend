@@ -1,5 +1,7 @@
-package de.splayfer.web_backend.authentication;
+package de.splayfer.web_backend;
 
+import de.splayfer.web_backend.authentication.JwtAuthenticationFilter;
+import de.splayfer.web_backend.authentication.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
