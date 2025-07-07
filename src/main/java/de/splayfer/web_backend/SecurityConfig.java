@@ -25,7 +25,6 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/authentication/accounts/login").permitAll() // Public endpoint
                         .anyRequest().authenticated() // Secured endpoints
                 )

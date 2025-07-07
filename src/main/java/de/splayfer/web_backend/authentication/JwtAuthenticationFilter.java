@@ -23,12 +23,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        // Preflight-Anfrage früh beenden, kein JWT nötig
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            return;
-        }
-
         String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
