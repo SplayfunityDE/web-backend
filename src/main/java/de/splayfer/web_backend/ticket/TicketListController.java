@@ -1,7 +1,6 @@
 package de.splayfer.web_backend.ticket;
 
 import de.splayfer.web_backend.MongoDBDatabase;
-import jakarta.annotation.PostConstruct;
 import org.bson.json.JsonWriterSettings;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
