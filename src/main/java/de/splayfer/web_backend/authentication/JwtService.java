@@ -10,7 +10,7 @@ import java.util.Date;
 @Service
 public class JwtService {
     private final String secretKey = System.getenv("JWT_KEY"); // Secret for signing JWTs
-    private final long expirationMs = 86400000; // Token validity (1 day)
+    private final long expirationMs = 10800000; // Token validity (3 hours)
 
     public String generateToken(String username) {
         return Jwts.builder()
