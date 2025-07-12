@@ -25,4 +25,14 @@ public class TicketListController {
                 .collect(Collectors.joining(",")) +
                 "]");
     }
+
+    @GetMapping("/closed")
+    public  ResponseEntity<?> listClosedTickets() {
+        MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("splayfunity");
+        return ResponseEntity.ok("[" +
+                StreamSupport.stream(mongoDBDatabase.findAll("ticket-closed").spliterator(), false)
+                        .map(doc -> doc.toJson(JsonWriterSettings.builder().indent(true).build()))
+                        .collect(Collectors.joining(",")) +
+                "]");
+    }
 }
