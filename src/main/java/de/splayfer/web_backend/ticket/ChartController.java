@@ -20,7 +20,7 @@ public class ChartController {
         MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("splayfunity");
         HashMap<Integer, Integer> topicMap = new HashMap<>();
         for (Document doc : mongoDBDatabase.findAll("ticket")) {
-            int topic = doc.getInteger("topic");
+            int topic = doc.getInteger("type");
             topicMap.put(topic, topicMap.getOrDefault(topic, 0) + 1);
         }
         return ResponseEntity.ok(new ObjectMapper().writeValueAsString(topicMap));
