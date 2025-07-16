@@ -26,4 +26,17 @@ public class ChartController {
         return ResponseEntity.ok(new ObjectMapper().writeValueAsString(topicMap));
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<?> getStatusChartData() throws JsonProcessingException {
+        MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("splayfunity");
+        HashMap<String, Integer> statusMap = new HashMap<>();
+        for (Document doc : mongoDBDatabase.findAll("ticket")) {
+            if (doc.containsKey("supporter"))
+                statusMap.put("bearbeitung", statusMap.getOrDefault("bearbeitung", 0));
+            else
+                statusMap.put("offen", statusMap.getOrDefault("offen", 0));
+        }
+        return ResponseEntity.ok(new ObjectMapper().writeValueAsString(statusMap));
+    }
+
 }
