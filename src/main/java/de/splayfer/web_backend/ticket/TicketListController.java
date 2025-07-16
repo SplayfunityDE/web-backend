@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/ticket/list")
 public class TicketListController {
