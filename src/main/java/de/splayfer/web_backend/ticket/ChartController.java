@@ -32,9 +32,9 @@ public class ChartController {
         HashMap<String, Integer> statusMap = new HashMap<>();
         for (Document doc : mongoDBDatabase.findAll("ticket")) {
             if (doc.containsKey("supporter"))
-                statusMap.put("bearbeitung", statusMap.getOrDefault("bearbeitung", 0));
+                statusMap.put("bearbeitung", statusMap.getOrDefault("bearbeitung", 0) + 1);
             else
-                statusMap.put("offen", statusMap.getOrDefault("offen", 0));
+                statusMap.put("offen", statusMap.getOrDefault("offen", 0) + 1);
         }
         return ResponseEntity.ok(new ObjectMapper().writeValueAsString(statusMap));
     }
