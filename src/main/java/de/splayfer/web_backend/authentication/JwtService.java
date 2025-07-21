@@ -10,13 +10,14 @@ import java.util.Date;
 @Service
 public class JwtService {
     private final String secretKey = System.getenv("JWT_KEY"); // Secret for signing JWTs
-    private final long expirationMs = 10800000; // Token validity (3 hours)
+    private final long shortExpirationMs = 10800000; // Token validity (3 hour)
+    private final long longExpirationMs = 86400000; // Token validity (24 hours)
 
-    public String generateToken(String username) {
+    public String generateToken(String username, boolean remember) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
+                .setExpiration(new Date(System.currentTimeMillis() + (remember ? longExpirationMs : shortExpirationMs)))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact(); // Creates the token
     }

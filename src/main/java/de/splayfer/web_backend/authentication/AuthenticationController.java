@@ -14,11 +14,11 @@ import java.util.Collections;
 public class AuthenticationController {
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationUser authenticationUser) {
+    public ResponseEntity<?> login(@RequestBody AuthenticationUser authenticationUser, @RequestParam boolean remember) {
         String username = authenticationUser.getUsername().toLowerCase();
         String value = authenticationUser.getValue();
         if (AuthenticationUser.fromUsername(username) != null && AuthenticationUser.fromUsername(username).getValue().equals(hashToSHA256(value))) {
-            return ResponseEntity.ok(Collections.singletonMap("token", new JwtService().generateToken(username)));
+            return ResponseEntity.ok(Collections.singletonMap("token", new JwtService().generateToken(username, remember)));
         } else
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
