@@ -1,5 +1,6 @@
 package de.splayfer.web_backend.authentication;
 
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,16 @@ public class AuthenticationController {
             return ResponseEntity.ok(Collections.singletonMap("token", new JwtService().generateToken(username, remember)));
         } else
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
+        try {
+            new JwtService().invalidateToken(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
     private static String hashToSHA256(String value) {
