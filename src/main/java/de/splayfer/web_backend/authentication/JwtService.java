@@ -31,12 +31,16 @@ public class JwtService {
                     .append("token", token)
                     .append("expiresAt", Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getExpiration()));
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public boolean validateToken(String token) {
+        MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("authentication");
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token); // Verifies token integrity
+            if (mongoDBDatabase.exists("invalidated-tokens", "token", token))
+                return false;
             return true;
         } catch (Exception e) {
             return false;

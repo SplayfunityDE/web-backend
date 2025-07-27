@@ -27,7 +27,7 @@ public class AuthenticationController {
     @GetMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
         try {
-            new JwtService().invalidateToken(token);
+            new JwtService().invalidateToken(token.split(" ")[1]);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
