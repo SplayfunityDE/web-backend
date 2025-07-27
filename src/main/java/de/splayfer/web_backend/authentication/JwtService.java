@@ -15,8 +15,6 @@ public class JwtService {
     private final long shortExpirationMs = 10800000; // Token validity (3 hour)
     private final long longExpirationMs = 86400000; // Token validity (24 hours)
 
-    MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("authentication");
-
     public String generateToken(String username, boolean remember) {
         return Jwts.builder()
                 .setSubject(username)
@@ -27,6 +25,7 @@ public class JwtService {
     }
 
     public void invalidateToken(String token) {
+        MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("authentication");
         try {
             mongoDBDatabase.insert("invalidated-tokens", new Document()
                     .append("token", token)
