@@ -55,8 +55,11 @@ jobs:
     - name: Adding Known Hosts
       run: ssh-keyscan -p ${{ secrets.PORT }} -H ${{ secrets.HOST }}  >> ~/.ssh/known_hosts
       
-    - name: Deploy with rsync
+    - name: Deploy Maven Artifacts
       run: rsync -avz /home/runner/work/web-backend/web-backend/target/web-backend-1.0.0-SNAPSHOT.jar ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/dockerfiles/web-backend
+      
+    - name: Sync Docker Configuration
+      run: rsync -avz --include="Dockerfile" --include="docker-compose.yaml" --exclude="*" . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/opt/dockerfiles/roonie
 
     - name: Rebuild container
       run: |
