@@ -1,8 +1,6 @@
 services:
   web-backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/splayfunityde/web-backend:latest
     restart: always
     volumes:
       - /opt/dockerfiles/web-backend:/app
