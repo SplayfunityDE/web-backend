@@ -29,7 +29,7 @@ public class JwtService {
         try {
             mongoDBDatabase.insert("invalidated-tokens", new Document()
                     .append("token", token)
-                    .append("expiresAt", Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getExpiration()));
+                    .append("expiresAt", Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration()));
         } catch (Exception e) {
             e.printStackTrace();
         }
