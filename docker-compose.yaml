@@ -2,8 +2,6 @@ services:
   web-backend:
     image: ghcr.io/splayfunityde/web-backend:latest
     restart: always
-    volumes:
-      - /opt/dockerfiles/web-backend:/app
     env_file: .env
     ports:
       - 8080:8080
