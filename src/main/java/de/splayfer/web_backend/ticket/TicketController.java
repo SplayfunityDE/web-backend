@@ -1,5 +1,7 @@
 package de.splayfer.web_backend.ticket;
 
+import de.splayfer.web_backend.authentication.JwtService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -10,7 +12,10 @@ import java.util.Map;
 @RequestMapping("/ticket")
 public class TicketController {
 
-    WebClient webClient = WebClient.builder().baseUrl("https://roonie.splayfer.de/ticket").build();
+    WebClient webClient = WebClient.builder()
+            .baseUrl("https://roonie.splayfer.de/ticket")
+            .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + new JwtService().generateBackendToken("web-backend"))
+            .build();
 
     @DeleteMapping("/{id}")
     public void closeTicket(@PathVariable String id, @RequestParam String reason) {
