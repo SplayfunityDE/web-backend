@@ -1,5 +1,6 @@
 package de.splayfer.web_backend.authentication;
 
+import com.mongodb.lang.Nullable;
 import de.splayfer.web_backend.MongoDBDatabase;
 import org.bson.Document;
 
@@ -8,6 +9,7 @@ public class AuthenticationUser {
     private String username;
     private String method = "password";
     private String value;
+    private String discordUserId;
 
     private final static MongoDBDatabase mongoDBDatabase = MongoDBDatabase.getDatabase("authentication");
 
@@ -35,29 +37,38 @@ public class AuthenticationUser {
         this.value = value;
     }
 
-    public AuthenticationUser(String username, String method, String value) {
+    public String getDiscordUserId() {
+        return discordUserId;
+    }
+
+    public void setDiscordUserId(String discordUserId) {
+        this.discordUserId = discordUserId;
+    }
+
+    public AuthenticationUser(String username, String method, String value, @Nullable String discordUserId) {
         this.username = username;
         this.method = method;
         this.value = value;
+        this.discordUserId = discordUserId;
     }
 
     public void syncWithDatabase() {
+        Document document = new Document()
+                .append("username", username.toLowerCase())
+                .append("method", method)
+                .append("value", value);
+        if (discordUserId != null)
+            document.append("discordUserId", discordUserId);
         if (mongoDBDatabase.exists("accounts", "username", username))
-            mongoDBDatabase.update("accounts", mongoDBDatabase.find("accounts", "username", username).first(), new Document()
-                    .append("username", username.toLowerCase())
-                    .append("method", method)
-                    .append("value", value));
+            mongoDBDatabase.update("accounts", mongoDBDatabase.find("accounts", "username", username).first(), document);
         else
-            mongoDBDatabase.insert("accounts", new Document()
-                    .append("username", username)
-                    .append("method", method)
-                    .append("value", value));
+            mongoDBDatabase.insert("accounts", document);
     }
 
     public static AuthenticationUser fromUsername(String username) {
         if (mongoDBDatabase.exists("accounts", "username", username)) {
             Document doc = mongoDBDatabase.find("accounts", "username", username).first();
-            return new AuthenticationUser(username, doc.getString("method"), doc.getString("value"));
+            return new AuthenticationUser(username, doc.getString("method"), doc.getString("value"), doc.getString("discordUserId") != null ? doc.getString("discordUserId") : null);
         } else
             return null;
     }
