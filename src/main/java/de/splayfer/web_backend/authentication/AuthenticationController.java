@@ -33,6 +33,12 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
+    @GetMapping("/{username}")
+    public AuthenticationUser getAuthenticationUser(@PathVariable String username) {
+        return AuthenticationUser.fromUsername(username);
+    }
+
+
     private static String hashToSHA256(String value) {
         MessageDigest digest = null;
         try {
