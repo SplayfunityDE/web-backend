@@ -13,7 +13,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  REMOTE_PATH: /opt/dockerfiles/web-backend
+  SERVICE_NAME: web-backend
+  REMOTE_PATH: /opt/dockerfiles/splayfunityde
   GHCR_USER: splayfery
   TAGS: latest
 
@@ -73,7 +74,7 @@ jobs:
       uses: actions/delete-package-versions@v5
       continue-on-error: true
       with:
-        package-name: web-backend
+        package-name: ${{ env.SERVICE_NAME }}
         package-type: container
         min-versions-to-keep: 1
 
@@ -151,15 +152,12 @@ jobs:
         ssh staging "
           echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u ${{ env.GHCR_USER }} --password-stdin &&
 
-          # Stop running container
-          docker compose -f ${REMOTE_PATH}/docker-compose.yaml down || true &&
-
           # Pull latest image
           docker pull ${REGISTRY}/${IMAGE_NAME}:${{ env.TAGS }} &&
-
+        
+          # Re-Pull und Restart container service
+          docker compose -f {REMOTE_PATH}/docker-compose.yaml up -d --force-recreate --no-deps ${{ env.SERVICE_NAME }} &&
+        
           # Remove unused old images
-          docker image prune -af &&
-
-          # Start new container
-          docker compose -f ${REMOTE_PATH}/docker-compose.yaml up -d
+          docker image prune -af
         "
