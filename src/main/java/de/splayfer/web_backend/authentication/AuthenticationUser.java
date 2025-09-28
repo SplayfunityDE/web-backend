@@ -72,4 +72,8 @@ public class AuthenticationUser {
         } else
             return null;
     }
+
+    public static AuthenticationUser fromJwt(String token) {
+        return fromUsername(new JwtService().extractUsername(token));
+    }
 }

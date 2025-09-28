@@ -33,9 +33,9 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
-    @GetMapping("/{username}")
-    public AuthenticationUser getAuthenticationUser(@PathVariable String username) {
-        return AuthenticationUser.fromUsername(username);
+    @GetMapping("/{token}")
+    public AuthenticationUser getAuthenticationUser(@PathVariable String token) {
+        return AuthenticationUser.fromJwt(token);
     }
 
 
