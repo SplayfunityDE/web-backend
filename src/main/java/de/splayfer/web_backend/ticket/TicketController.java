@@ -29,6 +29,7 @@ public class TicketController {
 
     @PutMapping("/{id}")
     public void updateTicket(@PathVariable String id, @RequestBody Map<String, String> body) {
+        System.out.println(body.toString());
         webClient
                 .put()
                 .uri("/" + id)
