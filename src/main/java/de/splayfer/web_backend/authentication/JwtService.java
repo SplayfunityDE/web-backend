@@ -14,7 +14,7 @@ public class JwtService {
     private final String secretKey = System.getenv("JWT_KEY"); // Secret for signing JWTs
     private final long shortExpirationMs = 10800000; // Token validity (3 hour)
     private final long longExpirationMs = 86400000; // Token validity (24 hours)
-    private final long backendExpirationMs = 17800000; // Token validity (48 hours)
+    private final long backendExpirationMs = 178000000; // Token validity (48 hours)
 
     public String generateBackendToken(String username) {
         return Jwts.builder()
