@@ -27,7 +27,7 @@ public class TicketController {
                 .block();
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public void updateTicket(@PathVariable String id, @RequestBody Map<String, String> body) {
         webClient
                 .put()
