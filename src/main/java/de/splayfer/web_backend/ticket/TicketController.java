@@ -30,7 +30,7 @@ public class TicketController {
     @PatchMapping("/{id}")
     public void updateTicket(@PathVariable String id, @RequestBody Map<String, String> body) {
         webClient
-                .put()
+                .patch()
                 .uri("/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(body)
